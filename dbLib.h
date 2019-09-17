@@ -112,6 +112,8 @@ public:
 	void loadDataSystem();
 	void loadDataTrackLine();
 	void loadDataTrack();
+	void printCityList();
+	int countElements();
 };
 
 void LoadData(void*& pData);

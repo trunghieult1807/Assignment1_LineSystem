@@ -26,6 +26,7 @@ int findComma(int n, string a) {
 			break;
 		}
 	}
+	return -1;
 }
 
 bool isExist(string a) {
@@ -126,6 +127,14 @@ void TDataset::loadDataCity() {
 		}
 		preTemp = temp;
 	}
+	
+	/*CityList.id.removeLast();
+	CityList.name.removeLast();
+	CityList.coords.removeLast();
+	CityList.startYear.removeLast();
+	CityList.urlname.removeLast();
+	CityList.country.removeLast();
+	CityList.countryState.removeLast();*/
 	inFile.close();
 }
 
@@ -298,6 +307,13 @@ void TDataset::loadDataLine() {
 			preTemp = temp;
 		}
 	}
+	/*LineList.id.removeLast();
+	LineList.cityId.removeLast();
+	LineList.name.removeLast();
+	LineList.urlname.removeLast();
+	LineList.color.removeLast();
+	LineList.systemId.removeLast();
+	LineList.transportModeId.removeLast();*/
 	inFile.close();
 }
 
@@ -376,6 +392,12 @@ void TDataset::loadDataStationLine() {
 		preTemp = temp;
 
 	}
+	/*StationLineList.id.removeLast();
+	StationLineList.stationId.removeLast();
+	StationLineList.lineId.removeLast();
+	StationLineList.cityId.removeLast();
+	StationLineList.createdAt.removeLast();
+	StationLineList.updatedAt.removeLast();*/
 	inFile.close();
 }
 
@@ -383,7 +405,6 @@ void TDataset::loadDataStation() {
 	fstream inFile;
 	string temp;
 	//string temp2;
-	int size;
 	string line;
 	string empty = "";
 	string preTemp = "";
@@ -632,6 +653,13 @@ void TDataset::loadDataStation() {
 			preTemp = temp;
 		}
 	}
+	/*StationList.id.removeLast();
+	StationList.name.removeLast();
+	StationList.geometry.removeLast();
+	StationList.buildStart.removeLast();
+	StationList.opening.removeLast();
+	StationList.closure.removeLast();
+	StationList.cityId.removeLast();*/
 	inFile.close();
 }
 
@@ -680,7 +708,6 @@ void TDataset::loadDataSystem() {
 		}
 		preTemp = temp;
 	}
-
 	inFile.close();
 }
 
@@ -749,6 +776,7 @@ void TDataset::loadDataTrackLine() {
 		}
 		preTemp = temp;
 	}
+	
 	inFile.close();
 }
 
@@ -856,12 +884,31 @@ void TDataset::loadDataTrack() {
 		}
 		preTemp = temp;
 	}
+	/*TrackList.id.removeLast();
+	TrackList.geometry.removeLast();
+	TrackList.buildStart.removeLast();
+	TrackList.opening.removeLast();
+	TrackList.closure.removeLast();
+	TrackList.length.removeLast();
+	TrackList.cityId.removeLast();*/
 	inFile.close();
 }
 
-TCity TDataset::getCityList() {
-	return CityList;
+void TDataset::printCityList() {
+	CityList.id.print();
 }
+
+int TDataset::countElements() {
+	cout << CityList.id.countElement() << endl;
+	cout << LineList.id.countElement() << endl;
+	cout << StationList.id.countElement() << endl;
+	cout <<StationLineList.id.countElement() << endl;
+	cout << SystemList.id.countElement() << endl;
+	cout << TrackList.id.countElement() << endl;
+	cout << TrackLineList.id.countElement()<<endl;
+	return CityList.id.countElement() + LineList.id.countElement() + StationList.id.countElement() + StationLineList.id.countElement() + SystemList.id.countElement() + TrackList.id.countElement() + TrackLineList.id.countElement();
+}
+
 
 void LoadData(void*& pData) {
 	pData = new TDataset();

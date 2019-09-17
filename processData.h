@@ -26,14 +26,6 @@
 
 using namespace std;
 
-//TCity CityList;
-//TLine LineList;
-//TStationLine StationLineList;
-//TStation StationList;
-//TSystem SystemList;
-//TTrackLine TrackLineList;
-//TTrack TrackList;
-
 /// Prototype declaration
 void Initialization();
 

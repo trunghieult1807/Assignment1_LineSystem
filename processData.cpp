@@ -38,8 +38,15 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 	//       N is the size of output, must be a non-negative number
 	
 	
-	//TDataset* pD = (TDataset*)pData;
-	
+	TDataset* pD = (TDataset*)pData;
+	/*switch (*pRequest) {
+	case 'CL':
+	{
+		pD->
+	}
+	}*/
+	cout << pD->countElements();
+	//pD->printCityList();
 
 }
 

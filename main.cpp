@@ -39,7 +39,6 @@ int main() {
         delete [] (int*)pOutput;
         pOutput = nullptr;
     }
-
     ReleaseData(pData);
     Finalization();
     return 0;

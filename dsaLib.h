@@ -109,9 +109,29 @@ public:
 			}
 		}
 	}
+	
 	void    traverse(void (*op)(T&, void*), void* pParam) {
 		// TODO: Your code goes here
 	}
+
+	void print() {
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			cout << _pTemp->data <<endl;
+			_pTemp = _pTemp->pNext;
+		}
+	}
+
+	int countElement() {
+		int n = 0;
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			n++;
+			_pTemp = _pTemp->pNext;
+		}
+		return n;
+	}
+
 };
 
 /// Insert item to the end of the list
@@ -123,17 +143,13 @@ int L1List<T>::push_back(T& a) {
 		_pHead = _pLast;
 		_pTail = _pLast;
 		_pLast = NULL;
+		_size++;
 	}
 	else {
 		_size++;
 		_pTail->pNext = _pLast;
 		_pTail = _pLast;
-		/*L1Item<T>* _pTemp = new L1Item<T>;
-		_pTemp = _pHead;
-		while (_pTemp->pNext != NULL) {
-			_pTemp = _pTemp->pNext;
-		}
-		_pTemp->pNext = _pLast;*/
+		
 	}
 	return 0;
 }
@@ -174,19 +190,24 @@ int L1List<T>::removeHead() {
 /// Return 0 if success, -1 otherwise
 template <class T>
 int L1List<T>::removeLast() {
-	if (_pHead == NULL) {
+	if (_size == 0) {
 		throw new DSAException(-1, "The linked list is initially empty! \n");
+	}
+	else if (_pHead->pNext == NULL) {
+		_size--;
+		delete _pTail;
+		_pHead = _pTail = NULL;
+		return 0;
 	}
 	else {
 		L1Item<T>* _pTemp = new L1Item<T>;
-		L1Item<T>* _pPreLast = new L1Item<T>;
+		L1Item<T>* _pLast = _pTail;
 		_pTemp = _pHead;
 		while (_pTemp->pNext != NULL) {
-			_pPreLast = _pTemp;
 			_pTemp = _pTemp->pNext;
 		}
-		_pPreLast->pNext = NULL;
-		delete _pTemp;//delete last node
+		_pTail = _pTemp;
+		delete _pLast;//delete last node
 		_size--;
 		return 0;
 	}
