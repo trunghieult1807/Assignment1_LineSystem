@@ -45,8 +45,61 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pD->
 	}
 	}*/
-	cout << pD->countElements();
+	//cout << pD->totalLine();//CL
+	//cout << pD->numLineByCity("Santiago");//CL <cityName>
+	//cout << pD->findCityIdByName("Santiago");//FC <cityName>
+	//cout << pD->findStationIdByStationName("Keisei Tsudanuma");//FS <stationName>
+	//pD->findListStationIdByCityName("Tokyo");//LSC <cityName>
+	//pD->findListLineIdByCityName("Tokyo");//LLC <cityName>
+	//pD->findListStationIdByLineId(571);//LSL <lineId>
 	//pD->printCityList();
-
+	string request = pRequest;
+	if (request == "CL") {
+		N = 1;
+		int result = pD->totalLine();
+		int* output = new int[N];
+		output[0] = result;
+		pOutput = output;
+	}
+	else if (request != "CL" && request.substr(0, 2) == "CL") {
+		N = 1;
+		string cityName = request.substr(3, request.length() - 3);
+		int result = pD->numLineByCity(cityName);
+		int* output = new int[N];
+		output[0] = result;
+		pOutput = output;
+	}
+	else if (request != "LSC" && request.substr(0, 3) == "LSC") {
+		string cityName = request.substr(4, request.length() - 4);
+		int* result = pD->findListStationIdByCityName(cityName, N);
+		int* output = new int[N];
+		output = result;
+		pOutput = output;
+	}
+	else if (request != "LLC" && request.substr(0, 3) == "LLC") {
+		string cityName = request.substr(4, request.length() - 4);
+		int* result = pD->findListLineIdByCityName(cityName, N);
+		int* output = new int[N];
+		output = result;
+		pOutput = output;
+	}
+	else if (request != "LSL" && request.substr(0, 3) == "LSL") {
+		bool isNum = false;
+		string lineId = request.substr(4, request.length() - 4);
+		for (int i = 0; i < lineId.length(); i++) {
+			if (lineId[i] < 48 || lineId[i] > 57) {
+				isNum = false;
+				break;
+			}
+			isNum = true;
+		}
+		if (isNum == true) {
+			int lineIdNum = stoi(lineId);
+			int* result = pD->findListStationIdByLineId(lineIdNum, N);
+			int* output = new int[N];
+			output = result;
+			pOutput = output;
+		}
+	}
 }
 

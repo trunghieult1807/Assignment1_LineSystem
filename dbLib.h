@@ -20,7 +20,7 @@
 #include <sstream>
 #include <math.h>
 #include <cstdlib>
-
+#include <vector>
 #include "dsaLib.h"
 
  /* TODO: Please design your data structure carefully so that you can work with the given dataset
@@ -113,7 +113,13 @@ public:
 	void loadDataTrackLine();
 	void loadDataTrack();
 	void printCityList();
-	int countElements();
+	int totalLine();
+	int numLineByCity(string cityName);
+	int findCityIdByName(string cityName);
+	int findStationIdByStationName(string stationName);
+	int* findListStationIdByCityName(string cityName, int& size);
+	int* findListLineIdByCityName(string cityName, int& size);
+	int* findListStationIdByLineId(int lineId, int& size);
 };
 
 void LoadData(void*& pData);

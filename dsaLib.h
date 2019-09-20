@@ -16,6 +16,7 @@
 #include <string.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -65,6 +66,7 @@ public:
 		}
 		else {
 			L1Item<T>* _pTemp = new L1Item<T>;
+			_pTemp = _pHead;
 			if (idx == 0) {
 				_pTemp = _pHead;
 			}
@@ -73,7 +75,7 @@ public:
 					_pTemp = _pTemp->pNext;
 				}
 			}
-			return _pTemp;
+			return _pTemp->data;
 		}
 	}
 	// give the reference to the element i-th in the list
@@ -113,7 +115,8 @@ public:
 	void    traverse(void (*op)(T&, void*), void* pParam) {
 		// TODO: Your code goes here
 	}
-
+	//****************************************
+	//Implement requirement
 	void print() {
 		L1Item<T>* _pTemp = _pHead;
 		while (_pTemp != NULL) {
@@ -132,6 +135,79 @@ public:
 		return n;
 	}
 
+	int isCityExist(string cityName, int& idx) {
+		L1Item<T>* _pTemp = _pHead;
+		int i = 0;
+		while (_pTemp != NULL) {
+			if (_pTemp->data == cityName) {
+				idx = i;
+				return 0;
+				break;
+			}
+			_pTemp = _pTemp->pNext;
+			i++;
+		}
+		return -1;
+	}
+
+	int countNumOfLineById(int id) {
+		L1Item<T>* _pTemp = _pHead;
+		int count = 0;
+		while (_pTemp != NULL) {
+			if (_pTemp->data == id) {
+				count++;
+			}
+			_pTemp = _pTemp->pNext;
+		}
+		return count;
+	}
+
+	int findListStationIdByCityId(int cityId, vector<int>& listIdxOfStationId, int& size) {
+		int idx = 0;
+		size = 0;
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			if (_pTemp->data == cityId) {
+				listIdxOfStationId.push_back(idx);
+				size++;
+			}
+			idx++;
+			_pTemp = _pTemp->pNext;
+		}
+		return 0;
+	}
+
+	int findListLineIdByCityId(int cityId, vector<int>& listIdxOfLineId, int& size) {
+		int idx = 0;
+		size = 0;
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			if (_pTemp->data == cityId) {
+				listIdxOfLineId.push_back(idx);
+				size++;
+			}
+			idx++;
+			_pTemp = _pTemp->pNext;
+		}
+		return 0;
+	}
+
+	int findListStationIdByLineId(int lineId, vector<int>& listIdxOfStationId, int& size) {
+		int idx = 0;
+		size = 0;
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			if (_pTemp->data == lineId) {
+				listIdxOfStationId.push_back(idx);
+				size++;
+			}
+			idx++;
+			_pTemp = _pTemp->pNext;
+		}
+		return 0;
+	}
+
+	//****************************************
 };
 
 /// Insert item to the end of the list

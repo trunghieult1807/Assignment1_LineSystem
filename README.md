@@ -117,13 +117,13 @@ These requests are represented in the form of input text as follows:
 
 | Request | Output | Description | 
 |:--------|:-------|-------------|
-| CL | integer | Count the number of lines in the dataset.|
-| CL <city_name> | integer | Count the number of lines in the given city. If the city does not exist, return -1.|
-| LSC <city_name> | integer array | List stations (``station_id``) of a city (given <city\_name>). The order of stations is determined by their appearance in ``stations.csv``.|
-| LLC <city_name> | integer array | List lines (``line_id``) of a city (given <city\_name>). The order of this list is given in ``lines.csv``.|
-| LSL <line_id> | integer array | List stations (``station_id``) of a line with <line\_id>. The order of station is determined by its appearance in ``station_lines.csv``.|
-| FC <city_name> | integer | Find a city with the given name. Return the first ``city_id`` if found, -1 otherwise.|
-| FS <station_name> | integer | Find a station with the given name. Return the first ``station_id`` if found, -1 otherwise.|
+*| CL | integer | Count the number of lines in the dataset.|
+*| CL <city_name> | integer | Count the number of lines in the given city. If the city does not exist, return -1.|
+*| LSC <city_name> | integer array | List stations (``station_id``) of a city (given <city\_name>). The order of stations is determined by their appearance in ``stations.csv``.|
+*| LLC <city_name> | integer array | List lines (``line_id``) of a city (given <city\_name>). The order of this list is given in ``lines.csv``.|
+*| LSL <line_id> | integer array | List stations (``station_id``) of a line with <line\_id>. The order of station is determined by its appearance in ``station_lines.csv``.|
+*| FC <city_name> | integer | Find a city with the given name. Return the first ``city_id`` if found, -1 otherwise.|
+*| FS <station_name> | integer | Find a station with the given name. Return the first ``station_id`` if found, -1 otherwise.|
 | SLP <station_id> <track_id> | integer | Find the position of a station in a track. Return the index of that station if found, -1 otherwise. The order of station is determined by ``LINESTRING`` in ``tracks.csv``.|
 | IS <csv_description> | integer | Insert a station into the dataset. The information of the station is given in ``csv_description``, which includes everything you see in ``stations.csv`` except the ``id`` and ``city_id``. If this operation success, we have to receive ``station id`` as the return value.  Note that we keep track the **maximum id** of every entities in the dataset so that when you insert a new instance, the allocated id should be the ``id_max + 1`` |
 | RS <station_id> | integer | Remove a station from the dataset. As a consequence, every records related to the station must be removed. Return 0 if success, return -1 if the station does not exist or can not be removed.| 

@@ -894,21 +894,110 @@ void TDataset::loadDataTrack() {
 	inFile.close();
 }
 
+//**************************************
+//Implement Requirement
+
 void TDataset::printCityList() {
 	CityList.id.print();
 }
 
-int TDataset::countElements() {
-	cout << CityList.id.countElement() << endl;
+int TDataset::totalLine() {
+	/*cout << CityList.id.countElement() << endl;
 	cout << LineList.id.countElement() << endl;
 	cout << StationList.id.countElement() << endl;
-	cout <<StationLineList.id.countElement() << endl;
+	cout << StationLineList.id.countElement() << endl;
 	cout << SystemList.id.countElement() << endl;
 	cout << TrackList.id.countElement() << endl;
-	cout << TrackLineList.id.countElement()<<endl;
+	cout << TrackLineList.id.countElement()<<endl;*/
 	return CityList.id.countElement() + LineList.id.countElement() + StationList.id.countElement() + StationLineList.id.countElement() + SystemList.id.countElement() + TrackList.id.countElement() + TrackLineList.id.countElement();
 }
 
+int TDataset::numLineByCity(string cityName) {
+	int idx;
+	if (CityList.name.isCityExist(cityName, idx) == -1) {
+		return -1;
+	}
+	else {
+		return LineList.cityId.countNumOfLineById(CityList.id.at(idx));
+	}
+}
+
+int TDataset::findCityIdByName(string cityName) {
+	int idx;
+	if (CityList.name.find(cityName, idx) == false) {
+		return -1;
+	}
+	else {
+		return CityList.id.at(idx);
+	}
+}
+
+int TDataset::findStationIdByStationName(string stationName) {
+	int idx;
+	if (StationList.name.find(stationName, idx) == false) {
+		return -1;
+	}
+	else {
+		return StationList.id.at(idx);
+	}
+}
+
+int* TDataset::findListStationIdByCityName(string cityName, int& N) {
+	int* listArray = NULL ;
+	vector<int> listIdxOfStationId;
+	int size;
+	N = 0;
+	if (findCityIdByName(cityName) == -1) {
+		return listArray;
+	}
+	else {
+		StationList.cityId.findListStationIdByCityId(findCityIdByName(cityName), listIdxOfStationId, size);
+		listArray = new int[size];
+		for (int i = 0; i < size; i++) {
+			listArray[i] = StationList.id.at(listIdxOfStationId.at(i));
+			N++;
+			//cout << listArray[i] << endl;
+		}
+		return listArray;
+	}
+}
+
+int* TDataset::findListLineIdByCityName(string cityName, int& N) {
+	int* listArray = NULL;
+	vector<int> listIdxOfLineId;
+	int size;
+	N = 0;
+	if (findCityIdByName(cityName) == -1) {
+		return listArray;
+	}
+	else {
+		LineList.cityId.findListLineIdByCityId(findCityIdByName(cityName), listIdxOfLineId, size);
+		listArray = new int[size];
+		for (int i = 0; i < size; i++) {
+			listArray[i] = LineList.id.at(listIdxOfLineId.at(i));
+			//cout << listArray[i] << endl;
+			N++;
+		}
+		return listArray;
+	}
+}
+
+int* TDataset::findListStationIdByLineId(int lineId, int& N) {
+	int* listArray = NULL;
+	vector<int> listIdxOfStationId;
+	int size;
+	N = 0;
+	StationLineList.lineId.findListStationIdByLineId(lineId, listIdxOfStationId, size);
+	listArray = new int[size];
+	for (int i = 0; i < size; i++) {
+		listArray[i] = StationLineList.stationId.at(listIdxOfStationId.at(i));
+		cout << listArray[i] << endl;
+		N++;
+	}
+		return listArray;
+}
+
+//******************************************
 
 void LoadData(void*& pData) {
 	pData = new TDataset();
