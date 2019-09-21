@@ -123,6 +123,9 @@ public:
 	string findGeometryOfLineByLineId(int id);  
 	string findGeometryOfTrackByTrackId(int id);
 	int findPositionOfStationInTrack(int lineId, int trackId);
+	int addNewStation(string description);
+	bool separateDescription(string& name, string& geometry, int& buildstart, int& opening, int& closure, string description);
+
 };
 
 void LoadData(void*& pData);

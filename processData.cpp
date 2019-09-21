@@ -49,7 +49,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	///Request 2
-	else if (request != "CL" && request.substr(0, 2) == "CL") {
+	else if (request != "CL" && request.substr(0, 3) == "CL ") {
 		N = 1;
 		string cityName = request.substr(3, request.length() - 3);
 		int result = pD->numLineByCity(cityName);
@@ -58,7 +58,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	//Request 3
-	else if (request != "LSC" && request.substr(0, 3) == "LSC") {
+	else if (request != "LSC" && request.substr(0, 4) == "LSC ") {
 		string cityName = request.substr(4, request.length() - 4);
 		int* result = pD->findListStationIdByCityName(cityName, N);
 		int* output = new int[N];
@@ -66,7 +66,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	///Request 4
-	else if (request != "LLC" && request.substr(0, 3) == "LLC") {
+	else if (request != "LLC" && request.substr(0, 4) == "LLC ") {
 		string cityName = request.substr(4, request.length() - 4);
 		int* result = pD->findListLineIdByCityName(cityName, N);
 		int* output = new int[N];
@@ -74,7 +74,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	///Request 5
-	else if (request != "LSL" && request.substr(0, 3) == "LSL") {
+	else if (request != "LSL" && request.substr(0, 4) == "LSL ") {
 		bool isNum = false;
 		string lineId = request.substr(4, request.length() - 4);
 		for (int i = 0; i < lineId.length(); i++) {
@@ -93,7 +93,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		}
 	}
 	///Request 6
-	else if (request != "FC" && request.substr(0, 2) == "FC") {
+	else if (request != "FC" && request.substr(0, 3) == "FC ") {
 		N = 1;
 		string cityName = request.substr(3, request.length() - 3);
 		int result = pD->findCityIdByName(cityName);
@@ -102,7 +102,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	///Request 7
-	else if (request != "FS" && request.substr(0, 2) == "FS") {
+	else if (request != "FS" && request.substr(0, 3) == "FS ") {
 		N = 1;
 		string stationName = request.substr(3, request.length() - 3);
 		int result = pD->findStationIdByStationName(stationName);
@@ -111,7 +111,7 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		pOutput = output;
 	}
 	///Request 8
-	else if (request != "SLP" && request.substr(0, 3) == "SLP") {
+	else if (request != "SLP" && request.substr(0, 4) == "SLP ") {
 		string temp = request.substr(4, request.length() - 4);
 		N = 1;
 		string lineId;
@@ -152,19 +152,32 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		}
 	}
 	///Request 9
-	else if (request != "SLP" && request.substr(0, 3) == "SLP") {
-
+	else if (request != "IS" && request.substr(0, 3) == "IS ") {
+		string description = request.substr(3, request.length() - 3);
+		string name;
+		string geometry;
+		int buildstart;
+		int opening;
+		int closure;
+		int result;
+		N = 1;
+		if (pD->addNewStation(description) != -1) {
+			result = pD->addNewStation(description);
+			int* output = new int[N];
+			output[0] = result;
+			pOutput = output;
+		}
 	}
 	///Request 10
-	else if (request != "IS" && request.substr(0, 2) == "IS") {
-
-	}
-	///Request 11
 	else if (request != "RS" && request.substr(0, 2) == "RS") {
 
 	}
-	///Request 12
+	///Request 11
 	else if (request != "US" && request.substr(0, 2) == "US") {
+
+	}
+	///Request 12
+	else if (request != "ILS" && request.substr(0, 2) == "ILS") {
 
 	}
 	///Request 13

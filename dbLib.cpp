@@ -14,6 +14,24 @@
  /* TODO: You can implement methods, functions that support your data structures here.
   * */
 
+int countComma(string a){
+	int count = 0;
+	for (int i = 0; i < a.length(); i++) {
+		if (a[i] == ',') {
+			count++;
+		}
+	}
+	return count;
+}
+
+bool isNum(string a) {
+	for (int i = 0; i < a.length(); i++) {
+		if (a[i] < 48 || a[i] > 57) {
+			return false;
+		}
+	}
+	return true;
+}
 
 int findComma(int n, string a) {
 	int num = 0;
@@ -151,7 +169,7 @@ void TDataset::loadDataCity() {
 		}
 		preTemp = temp;
 	}
-	
+
 	/*CityList.id.removeLast();
 	CityList.name.removeLast();
 	CityList.coords.removeLast();
@@ -800,7 +818,7 @@ void TDataset::loadDataTrackLine() {
 		}
 		preTemp = temp;
 	}
-	
+
 	inFile.close();
 }
 
@@ -967,7 +985,7 @@ int TDataset::findStationIdByStationName(string stationName) {
 }
 
 int* TDataset::findListStationIdByCityName(string cityName, int& N) {
-	int* listArray = NULL ;
+	int* listArray = NULL;
 	vector<int> listIdxOfStationId;
 	int size;
 	N = 0;
@@ -1015,7 +1033,7 @@ string TDataset::findGeometryOfLineByLineId(int lineId) {
 		/*cout << endl;
 		cout << StationList.geometry.at(idx).substr(6, StationList.geometry.at(idx).length() - 7);*/
 		return StationList.geometry.at(idx).substr(6, StationList.geometry.at(idx).length() - 7);
-		
+
 	}
 }
 
@@ -1042,8 +1060,8 @@ int TDataset::findPositionOfStationInTrack(int lineId, int trackId) {
 		if (i == 0) {
 			temp[i] = str.substr(0, findComma(1, str) - 1);
 		}
-		else if(i == size -1){
-			temp[i] = str.substr(findComma(i, str) + 1, str.length() - findComma(i, str)- 1);
+		else if (i == size - 1) {
+			temp[i] = str.substr(findComma(i, str) + 1, str.length() - findComma(i, str) - 1);
 		}
 		else {
 			temp[i] = str.substr(findComma(i, str) + 1, findComma(i + 1, str) - findComma(i, str) - 1);
@@ -1070,10 +1088,106 @@ int* TDataset::findListStationIdByLineId(int lineId, int& N) {
 	listArray = new int[size];
 	for (int i = 0; i < size; i++) {
 		listArray[i] = StationLineList.stationId.at(listIdxOfStationId.at(i));
-		//cout << listArray[i] << endl;
 		N++;
 	}
-		return listArray;
+	return listArray;
+}
+
+bool TDataset::separateDescription(string& name, string& geometry, int& buildstart, int& opening, int& closure, string description) {
+	int count = countComma(description);
+	if (count == 0) {
+		name = description.substr(0, description.length());
+		geometry = "";
+		buildstart = -1;
+		opening = -1;
+		closure = -1;
+	}
+	else if (count == 1) {
+		name = description.substr(0, findComma(1, description));
+		geometry = description.substr(findComma(1, description) + 1, description.length() - findComma(1, description) - 1);
+		buildstart = -1;
+		opening = -1;
+		closure = -1;
+	}
+	else if (count == 2) {
+		name = description.substr(0, findComma(1, description));
+		geometry = description.substr(findComma(1, description) + 1, findComma(2, description) - findComma(1, description) - 1);
+		if (isNum(description.substr(findComma(2, description) + 1, description.length() - findComma(2, description) - 1)) == true) {
+			buildstart = stoi(description.substr(findComma(2, description) + 1, description.length() - findComma(2, description) - 1));
+		}
+		else {
+			return false;
+		}
+		opening = -1;
+		closure = -1;
+	}
+	else if (count == 3) {
+		name = description.substr(0, findComma(1, description));
+		geometry = description.substr(findComma(1, description) + 1, findComma(2, description) - findComma(1, description) - 1);
+		if (isNum(description.substr(findComma(2, description) + 1, findComma(3, description) - findComma(2, description) - 1)) == true) {
+			buildstart = stoi(description.substr(findComma(2, description) + 1, findComma(3, description) - findComma(2, description) - 1));
+		}
+		else {
+			return false;
+		}
+		if (isNum(description.substr(findComma(3, description) + 1, description.length() - findComma(3, description) - 1)) == true) {
+			opening = stoi(description.substr(findComma(3, description) + 1, description.length() - findComma(3, description) - 1));
+		}
+		else {
+			return false;
+		}
+		closure = -1;
+	}
+	else if (count == 4) {
+		name = description.substr(0, findComma(1, description));
+		geometry = description.substr(findComma(1, description) + 1, findComma(2, description) - findComma(1, description) - 1);
+		if (isNum(description.substr(findComma(2, description) + 1, findComma(3, description) - findComma(2, description) - 1)) == true) {
+			buildstart = stoi(description.substr(findComma(2, description) + 1, findComma(3, description) - findComma(2, description) - 1));
+		}
+		else {
+			return false;
+		}
+		if (isNum(description.substr(findComma(3, description) + 1, findComma(4, description) - findComma(3, description) - 1)) == true) {
+			opening = stoi(description.substr(findComma(3, description) + 1, findComma(4, description) - findComma(3, description) - 1));
+		}
+		else {
+			return false;	
+		}
+		if (isNum(description.substr(findComma(4, description) + 1, description.length() - findComma(4, description) - 1)) == true) {
+			closure = stoi(description.substr(findComma(4, description) + 1, description.length() - findComma(4, description) - 1));
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+	return true;
+}
+
+int TDataset::addNewStation(string description) {
+	int max = StationList.id.findMaxId() + 1;
+	string name;
+	string geometry;
+	int buildstart;
+	int opening;
+	int closure;
+	int def = -1;
+	if (separateDescription(name, geometry, buildstart, opening, closure, description) == false) {
+		return -1;
+	}
+	else {
+		separateDescription(name, geometry, buildstart, opening, closure, description);
+		StationList.id.push_back(max);
+		StationList.name.push_back(name);
+		StationList.geometry.push_back(geometry);
+		StationList.buildStart.push_back(buildstart);
+		StationList.opening.push_back(opening);
+		StationList.closure.push_back(closure);
+		StationList.cityId.push_back(def);
+		return max;
+	}
 }
 
 

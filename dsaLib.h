@@ -207,6 +207,31 @@ public:
 		return 0;
 	}
 
+	int findMaxId() {
+		int max = 0;
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			if (_pTemp->data > max) {
+				max = _pTemp->data;
+			}
+			_pTemp = _pTemp->pNext;
+		}
+		return max;
+	}
+/*
+	void stationLinkedListToFile() {
+		ofstream outFile;
+		outFile.open("stations.csv");
+		L1Item<T>* _pTemp = _pHead;
+		while (_pTemp != NULL) {
+			outFile << _pTemp->data << ",";
+			outFile << list_of_grade.teacherID.at(i) << ",";
+			outFile << list_of_grade.grades.at(i) << ",";
+			outFile << list_of_grade.semester.at(i) << endl;
+		}
+		outFile.close();
+
+	}*/
 	//****************************************
 };
 
