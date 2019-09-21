@@ -29,6 +29,30 @@ int findComma(int n, string a) {
 	return -1;
 }
 
+int findSpace(int n, string a) {
+	int num = 0;
+	for (int i = 0; i < a.length(); i++) {
+		if (a[i] == ' ') {
+			num++;
+		}
+		if (num == n) {
+			return i;
+			break;
+		}
+	}
+	return -1;
+}
+
+int countSpace(string a) {
+	int num = 0;
+	for (int i = 0; i < a.length(); i++) {
+		if (a[i] == ' ') {
+			num++;
+		}
+	}
+	return num;
+}
+
 bool isExist(string a) {
 	for (int i = 0; i < a.length(); i++) {
 		if (a[i] == '"') {
@@ -982,6 +1006,61 @@ int* TDataset::findListLineIdByCityName(string cityName, int& N) {
 	}
 }
 
+string TDataset::findGeometryOfLineByLineId(int lineId) {
+	int idx;
+	if (StationList.id.find(lineId, idx) == false) {
+		return "";
+	}
+	else {
+		/*cout << endl;
+		cout << StationList.geometry.at(idx).substr(6, StationList.geometry.at(idx).length() - 7);*/
+		return StationList.geometry.at(idx).substr(6, StationList.geometry.at(idx).length() - 7);
+		
+	}
+}
+
+string TDataset::findGeometryOfTrackByTrackId(int trackId) {
+	int idx;
+	if (TrackList.id.find(trackId, idx) == false) {
+		return "";
+	}
+	else {
+		/*cout << endl;
+		cout << TrackList.geometry.at(idx);*/
+		return TrackList.geometry.at(idx);
+	}
+}
+
+int TDataset::findPositionOfStationInTrack(int lineId, int trackId) {
+	int idx = 0;
+	string str1 = findGeometryOfLineByLineId(lineId);
+	string str2 = findGeometryOfTrackByTrackId(trackId);
+	string str = str2.substr(11, str2.length() - 12);
+	int size = countSpace(str);
+	string* temp = new string[size];
+	for (int i = 0; i < size; i++) {
+		if (i == 0) {
+			temp[i] = str.substr(0, findComma(1, str) - 1);
+		}
+		else if(i == size -1){
+			temp[i] = str.substr(findComma(i, str) + 1, str.length() - findComma(i, str)- 1);
+		}
+		else {
+			temp[i] = str.substr(findComma(i, str) + 1, findComma(i + 1, str) - findComma(i, str) - 1);
+		}
+		if (str1 == temp[i]) {
+			idx = i + 1;
+			break;
+		}
+	}
+	if (idx != 0) {
+		return idx;
+	}
+	else {
+		return -1;
+	}
+}
+
 int* TDataset::findListStationIdByLineId(int lineId, int& N) {
 	int* listArray = NULL;
 	vector<int> listIdxOfStationId;
@@ -991,11 +1070,13 @@ int* TDataset::findListStationIdByLineId(int lineId, int& N) {
 	listArray = new int[size];
 	for (int i = 0; i < size; i++) {
 		listArray[i] = StationLineList.stationId.at(listIdxOfStationId.at(i));
-		cout << listArray[i] << endl;
+		//cout << listArray[i] << endl;
 		N++;
 	}
 		return listArray;
 }
+
+
 
 //******************************************
 

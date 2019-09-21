@@ -120,6 +120,9 @@ public:
 	int* findListStationIdByCityName(string cityName, int& size);
 	int* findListLineIdByCityName(string cityName, int& size);
 	int* findListStationIdByLineId(int lineId, int& size);
+	string findGeometryOfLineByLineId(int id);  
+	string findGeometryOfTrackByTrackId(int id);
+	int findPositionOfStationInTrack(int lineId, int trackId);
 };
 
 void LoadData(void*& pData);
