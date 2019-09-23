@@ -125,7 +125,15 @@ public:
 	int findPositionOfStationInTrack(int lineId, int trackId);
 	int addNewStation(string description);
 	bool separateDescription(string& name, string& geometry, int& buildstart, int& opening, int& closure, string description);
-
+	bool isStationInTrack(int stationid, vector<int>& idx, int& size);
+	bool isStationInStationLine(int stationId, vector<int>& idx, int& size);
+	void deleteStationInTrack(int stationId, int& is);
+	void deleteStationInStationLine(int stationId, int& is);
+	void deleteStation(int stationId, int& is);
+	int isDelete(int stationId);
+	int updateInfoOfStation(int stationId, string description);
+	int separeteForLastReq(int& stationId, int& lineId, int& pos, string input);
+	int insertStation(int*& arrayList, int& stationId, int& lineId, int& pos, string input);
 };
 
 void LoadData(void*& pData);

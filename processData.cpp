@@ -169,19 +169,90 @@ void ProcessRequest(const char* pRequest, void* pData, void*& pOutput, int& N) {
 		}
 	}
 	///Request 10
-	else if (request != "RS" && request.substr(0, 2) == "RS") {
-
+	else if (request != "RS" && request.substr(0, 3) == "RS ") {
+		N = 1;
+		bool isNum;
+		string stationId = request.substr(3, request.length() - 3);
+		if (stationId.length() == 0) {
+			isNum = false;
+		}
+		else {
+			for (int i = 0; i < stationId.length(); i++) {
+				if (stationId[i] < 48 || stationId[i] > 57) {
+					isNum = false;
+					break;
+				}
+				isNum = true;
+			}
+		}
+		if (isNum == true) {
+			int stationIdNum = stoi(stationId);
+			int result = pD->isDelete(stationIdNum);
+			int* output = new int[N];
+			output[0] = result;
+			pOutput = output;
+		}
 	}
 	///Request 11
-	else if (request != "US" && request.substr(0, 2) == "US") {
-
+	else if (request != "US" && request.substr(0, 3) == "US ") {
+		string input = request.substr(3, request.length() - 3);
+		string stationId;
+		string description;
+		for (int i = 0; i < input.length(); i++) {
+			if (input[i] == ' ') {
+				stationId = input.substr(0, i);
+				description = input.substr(i + 1, input.length() - i - 1);
+				break;
+			}
+		}
+		string name;
+		string geometry;
+		int buildstart;
+		int opening;
+		int closure;
+		int result;
+		N = 1;
+		bool isNum;
+		if (stationId.length() == 0) {
+			isNum = false;
+		}
+		else {
+			for (int i = 0; i < stationId.length(); i++) {
+				if (stationId[i] < 48 || stationId[i] > 57) {
+					isNum = false;
+					break;
+				}
+				isNum = true;
+			}
+		}
+		if (isNum == true) {
+			int stationIdNum = stoi(stationId);
+			if (pD->updateInfoOfStation(stationIdNum, description) == 0) {
+				int result = 0;
+				int* output = new int[N];
+				output[0] = result;
+				pOutput = output;
+			}
+		}
 	}
 	///Request 12
-	else if (request != "ILS" && request.substr(0, 2) == "ILS") {
+	else if (request != "ISL" && request.substr(0, 4) == "ISL ") {
+		bool isNum = false;
+		N = 1;
+		string input = request.substr(4, request.length() - 4);
+		int lineId, stationId, pos;
+		int* arrayList = {};
+		if (pD->insertStation(arrayList, stationId, lineId, pos, input) == 0) {
+			int result = pD->insertStation(arrayList, stationId, lineId, pos, input);
+			int* output = new int[N];
+			output[0] = result;
+			cout << lineId << endl << stationId << endl << pos << endl;
+			pOutput = output;
+		}
 
 	}
 	///Request 13
-	else if (request != "RLS" && request.substr(0, 3) == "RLS") {
+	else if (request != "RLS" && request.substr(0, 4) == "RLS ") {
 
 	}
 

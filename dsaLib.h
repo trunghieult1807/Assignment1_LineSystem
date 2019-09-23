@@ -111,7 +111,7 @@ public:
 			}
 		}
 	}
-	
+
 	void    traverse(void (*op)(T&, void*), void* pParam) {
 		// TODO: Your code goes here
 	}
@@ -120,7 +120,7 @@ public:
 	void print() {
 		L1Item<T>* _pTemp = _pHead;
 		while (_pTemp != NULL) {
-			cout << _pTemp->data <<endl;
+			cout << _pTemp->data << endl;
 			_pTemp = _pTemp->pNext;
 		}
 	}
@@ -218,20 +218,6 @@ public:
 		}
 		return max;
 	}
-/*
-	void stationLinkedListToFile() {
-		ofstream outFile;
-		outFile.open("stations.csv");
-		L1Item<T>* _pTemp = _pHead;
-		while (_pTemp != NULL) {
-			outFile << _pTemp->data << ",";
-			outFile << list_of_grade.teacherID.at(i) << ",";
-			outFile << list_of_grade.grades.at(i) << ",";
-			outFile << list_of_grade.semester.at(i) << endl;
-		}
-		outFile.close();
-
-	}*/
 	//****************************************
 };
 
@@ -250,7 +236,7 @@ int L1List<T>::push_back(T& a) {
 		_size++;
 		_pTail->pNext = _pLast;
 		_pTail = _pLast;
-		
+
 	}
 	return 0;
 }
@@ -322,56 +308,66 @@ int L1List<T>::remove(int i) {
 		throw new DSAException(-1, "The index is out of range! \n");
 	}
 	else {
-		int index = 0;
-		L1Item<T>* _p;
-		while (index < i) {
-			index++;
-
+		L1Item<T>* _pTemp = _pHead;
+		L1Item<T>* _pCurr = new L1Item<T>;
+		if (i == 0) {
+			_pHead = _pTemp->pNext;
+			free(_pTemp);
+			_size--;
+			return 0;
 		}
-		_size--;
+		else {
+			// Find previous node of the node to be deleted 
+			for (int n = 0; _pTemp != NULL && n < i - 1; n++) {
+				_pTemp = _pTemp->pNext;
+			}
+			_pCurr = _pTemp->pNext;
+			_pTemp->pNext = _pTemp->pNext->pNext;
+			_size--;
+			free(_pCurr);
+			return 0;
+		}
 	}
-	return 0;
 }
-
-/// Insert an element into the list at location i
-/// Return 0 if success, -1 otherwise
-template <class T>
-int L1List<T>::insert(int i, T& a) {
-	if (i < 0 || i > _size - 1) {
-		throw new DSAException(-1, "The index is out of range! \n");
-	}
-	else {
-		L1Item<T>* _pCurr = _pHead;
-		int index = 0;
-		while (index < i - 1) {
-			index++;
-			_pCurr = _pCurr->pNext;
+	/// Insert an element into the list at location i
+	/// Return 0 if success, -1 otherwise
+	template <class T>
+	int L1List<T>::insert(int i, T & a) {
+		if (i < 0 || i > _size - 1) {
+			throw new DSAException(-1, "The index is out of range! \n");
 		}
-		_pCurr->pNext = new L1Item<T>(a, _pCurr->pNext);
-		_size++;
-	}
-	return 0;
-
-};
-
-/// Find an element similar to a in the list
-/// Set the found index to idx, set idx to - 1 if failed
-/// Return true if success, else return false
-template <class T>
-bool L1List<T>::find(T& a, int& idx) {
-	L1Item<T>* _pTemp = new L1Item<T>;
-	_pTemp = _pHead;
-	idx = 0;
-	while (_pTemp->data != a) {
-		if (_pTemp->pNext == NULL) {
-			idx = -1;
-			return false;
+		else {
+			L1Item<T>* _pCurr = _pHead;
+			int index = 0;
+			while (index < i - 1) {
+				index++;
+				_pCurr = _pCurr->pNext;
+			}
+			_pCurr->pNext = new L1Item<T>(a, _pCurr->pNext);
+			_size++;
 		}
-		idx++;
-		_pTemp = _pTemp->pNext;
-	}
-	return true;
-};
+		return 0;
+
+	};
+
+	/// Find an element similar to a in the list
+	/// Set the found index to idx, set idx to - 1 if failed
+	/// Return true if success, else return false
+	template <class T>
+	bool L1List<T>::find(T & a, int& idx) {
+		L1Item<T>* _pTemp = new L1Item<T>;
+		_pTemp = _pHead;
+		idx = 0;
+		while (_pTemp->data != a) {
+			if (_pTemp->pNext == NULL) {
+				idx = -1;
+				return false;
+			}
+			idx++;
+			_pTemp = _pTemp->pNext;
+		}
+		return true;
+	};
 
 
 #endif //DSA191_A1_DSALIB_H

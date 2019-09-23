@@ -169,14 +169,6 @@ void TDataset::loadDataCity() {
 		}
 		preTemp = temp;
 	}
-
-	/*CityList.id.removeLast();
-	CityList.name.removeLast();
-	CityList.coords.removeLast();
-	CityList.startYear.removeLast();
-	CityList.urlname.removeLast();
-	CityList.country.removeLast();
-	CityList.countryState.removeLast();*/
 	inFile.close();
 }
 
@@ -349,13 +341,6 @@ void TDataset::loadDataLine() {
 			preTemp = temp;
 		}
 	}
-	/*LineList.id.removeLast();
-	LineList.cityId.removeLast();
-	LineList.name.removeLast();
-	LineList.urlname.removeLast();
-	LineList.color.removeLast();
-	LineList.systemId.removeLast();
-	LineList.transportModeId.removeLast();*/
 	inFile.close();
 }
 
@@ -434,19 +419,12 @@ void TDataset::loadDataStationLine() {
 		preTemp = temp;
 
 	}
-	/*StationLineList.id.removeLast();
-	StationLineList.stationId.removeLast();
-	StationLineList.lineId.removeLast();
-	StationLineList.cityId.removeLast();
-	StationLineList.createdAt.removeLast();
-	StationLineList.updatedAt.removeLast();*/
 	inFile.close();
 }
 
 void TDataset::loadDataStation() {
 	fstream inFile;
 	string temp;
-	//string temp2;
 	string line;
 	string empty = "";
 	string preTemp = "";
@@ -458,67 +436,6 @@ void TDataset::loadDataStation() {
 		exit(1);
 	}
 	getline(inFile, temp);
-
-	/*while (getline(inFile, temp)) {
-		size = temp.length();
-		temp2 = temp.substr(0, findComma(1, temp));
-		StationList.id.push_back(temp2);
-		temp2 = temp.substr(findComma(1, temp) + 1, findComma(2, temp) - findComma(1, temp) - 1);
-		StationList.name.push_back(temp2);
-		temp2 = temp.substr(findComma(2, temp) + 1, findComma(3, temp) - findComma(2, temp) - 1);
-		StationList.geometry.push_back(temp2);
-		temp2 = temp.substr(findComma(3, temp) + 1, findComma(4, temp) - findComma(3, temp) - 1);
-		StationList.buildStart.push_back(temp2);
-		temp2 = temp.substr(findComma(4, temp) + 1, findComma(5, temp) - findComma(4, temp) - 1);
-		StationList.opening.push_back(temp2);
-		temp2 = temp.substr(findComma(5, temp) + 1, findComma(6, temp) - findComma(5, temp) - 1);
-		StationList.closure.push_back(temp2);
-		temp2 = temp.substr(findComma(6, temp) + 1, size - findComma(6, temp));
-		StationList.cityId.push_back(temp2);
-	}*/
-
-	/*while (!inFile.eof()) {
-		if () {
-
-		}
-		else {
-			getline(inFile, temp, ',');
-			tempNum = stoi(temp);
-			StationList.id.push_back(tempNum);
-			getline(inFile, temp, ',');
-			StationList.name.push_back(temp);
-			getline(inFile, temp, ',');
-			StationList.geometry.push_back(temp);
-			getline(inFile, temp, ',');
-			if (temp == "") {
-				tempNum = 0;
-			}
-			else {
-				tempNum = stoi(temp);
-			}
-			StationList.buildStart.push_back(tempNum);
-			getline(inFile, temp, ',');
-			if (temp == "") {
-				tempNum = 0;
-			}
-			else {
-				tempNum = stoi(temp);
-			}
-			StationList.opening.push_back(tempNum);
-			getline(inFile, temp, ',');
-			if (temp == "") {
-				tempNum = 0;
-			}
-			else {
-				tempNum = stoi(temp);
-			}
-			StationList.closure.push_back(tempNum);
-			getline(inFile, temp, '\n');
-			tempNum = stoi(temp);
-			StationList.cityId.push_back(tempNum);
-		}
-	}*/
-
 	while (getline(inFile, line)) {
 		istringstream tempLine(line);
 		if (isExist(line) == true) {
@@ -695,13 +612,6 @@ void TDataset::loadDataStation() {
 			preTemp = temp;
 		}
 	}
-	/*StationList.id.removeLast();
-	StationList.name.removeLast();
-	StationList.geometry.removeLast();
-	StationList.buildStart.removeLast();
-	StationList.opening.removeLast();
-	StationList.closure.removeLast();
-	StationList.cityId.removeLast();*/
 	inFile.close();
 }
 
@@ -926,13 +836,6 @@ void TDataset::loadDataTrack() {
 		}
 		preTemp = temp;
 	}
-	/*TrackList.id.removeLast();
-	TrackList.geometry.removeLast();
-	TrackList.buildStart.removeLast();
-	TrackList.opening.removeLast();
-	TrackList.closure.removeLast();
-	TrackList.length.removeLast();
-	TrackList.cityId.removeLast();*/
 	inFile.close();
 }
 
@@ -944,13 +847,6 @@ void TDataset::printCityList() {
 }
 
 int TDataset::totalLine() {
-	/*cout << CityList.id.countElement() << endl;
-	cout << LineList.id.countElement() << endl;
-	cout << StationList.id.countElement() << endl;
-	cout << StationLineList.id.countElement() << endl;
-	cout << SystemList.id.countElement() << endl;
-	cout << TrackList.id.countElement() << endl;
-	cout << TrackLineList.id.countElement()<<endl;*/
 	return CityList.id.countElement() + LineList.id.countElement() + StationList.id.countElement() + StationLineList.id.countElement() + SystemList.id.countElement() + TrackList.id.countElement() + TrackLineList.id.countElement();
 }
 
@@ -1190,8 +1086,185 @@ int TDataset::addNewStation(string description) {
 	}
 }
 
+bool TDataset::isStationInTrack(int stationId, vector<int>& idx, int& size) {
+	size = 0;
+	for (int i = 0; i < TrackList.id.getSize(); i++) {
+		if (findPositionOfStationInTrack(stationId, TrackList.id.at(i)) != -1) {
+			idx.push_back(i+1);
+			size++;
+		}
+	}
+	if (size != 0) {
+		return true;
+	}
+	else return false;
+}
 
+bool TDataset::isStationInStationLine(int stationId, vector<int>& idx, int& size) {
+	size = 0;
+	for (int i = 0; i < StationLineList.id.getSize(); i++) {
+		if (StationLineList.stationId.at(i) == stationId) {
+			idx.push_back(i+1);
+			size++;
+		}
+	}
+	if (size != 0) {
+		return true;
+	}
+	else return false;
+}
 
+void TDataset::deleteStationInTrack(int stationId, int& is) {
+	vector<int> idx = {};
+	int size = 0;
+	is = -1;
+	if (isStationInTrack(stationId, idx, size) == true) {
+		for (int i = 0; i < size; i++) {
+			TrackList.id.remove(idx.at(i));
+			TrackList.geometry.remove(idx.at(i));
+			TrackList.buildStart.remove(idx.at(i));
+			TrackList.opening.remove(idx.at(i));
+			TrackList.closure.remove(idx.at(i));
+			TrackList.length.remove(idx.at(i));
+			TrackList.cityId.remove(idx.at(i));
+		}
+		is = 0;
+	}
+}
+
+void TDataset::deleteStationInStationLine(int stationId, int& is) {
+	vector<int> idx = {};
+	int size = 0;
+	is = -1;
+	if (isStationInStationLine(stationId, idx, size) == true) {
+		for (int i = 0; i < size; i++) {
+			StationLineList.id.remove(idx.at(i));
+			StationLineList.stationId.remove(idx.at(i));
+			StationLineList.lineId.remove(idx.at(i));
+			StationLineList.cityId.remove(idx.at(i));
+			StationLineList.createdAt.remove(idx.at(i));
+			StationLineList.updatedAt.remove(idx.at(i));
+		}
+		is = 0;
+	}
+}
+
+void TDataset::deleteStation(int stationId, int& is) {
+	int idx;
+	is = -1;
+	if (StationList.id.find(stationId, idx) == true) {
+		StationList.id.remove(idx);
+		StationList.name.remove(idx);
+		StationList.geometry.remove(idx);
+		StationList.buildStart.remove(idx);
+		StationList.opening.remove(idx);
+		StationList.closure.remove(idx);
+		StationList.cityId.remove(idx);
+		is = 0;
+	}
+}
+
+int TDataset::isDelete(int stationId) {
+	int is1, is2, is3;
+	deleteStation(stationId, is3);
+	if (is3 == 0) {
+		deleteStationInTrack(stationId, is1);
+		deleteStationInStationLine(stationId, is2);
+		return 0;
+	}
+	else return -1;
+}
+
+int TDataset::updateInfoOfStation(int stationId, string description) {
+	string name;
+	string geometry;
+	int buildstart;
+	int opening;
+	int closure;
+	int def = -1;
+	if (separateDescription(name, geometry, buildstart, opening, closure, description) == false) {
+		return -1;
+	}
+	else {
+		int idx;
+		StationList.id.find(stationId, idx);
+		separateDescription(name, geometry, buildstart, opening, closure, description);
+		StationList.name.at(idx) = name;
+		StationList.geometry.at(idx) = geometry;
+		StationList.buildStart.at(idx) = buildstart;
+		StationList.opening.at(idx) = opening;
+		StationList.closure.at(idx)= closure;
+		return 0;
+	}
+}
+
+int TDataset::separeteForLastReq(int& stationId, int& lineId, int& pos, string input) {
+	string stationIdString, lineIdString, posString;
+	if (countSpace(input) != 2) {
+		return -1;
+	}
+	stationIdString = input.substr(0, findSpace(1, input));
+	lineIdString = input.substr(findSpace(1, input) + 1, findSpace(2, input) - findSpace(1, input) - 1);
+	posString = input.substr(findSpace(2, input) + 1, input.length() - findSpace(2, input) - 1);
+	if (isNum(stationIdString) == true && isNum(lineIdString) == true && isNum(posString) == true) {
+		stationId = stoi(stationIdString);
+		lineId = stoi(lineIdString);
+		pos = stoi(posString);
+		/*cout << endl << endl << pos << endl;*/
+		return 0;
+	}
+	else return -1;
+}
+
+int TDataset::insertStation(int*& arrayList, int& stationId, int& lineId, int& pos, string input) {
+	int N;
+	if (separeteForLastReq(stationId, lineId, pos, input) == 0) {
+		int size;
+		int def = -1;
+		string defString = "";
+		vector<int> listIdxOfStationId;
+		arrayList = findListStationIdByLineId(lineId, N);
+		arrayList = new int[1];
+		if (pos > N) {
+			return -1;
+		}
+		else if (pos = N) {
+			arrayList = new int[1];
+			arrayList[N] = stationId;
+			StationLineList.lineId.findListStationIdByLineId(lineId, listIdxOfStationId, size);
+			StationLineList.id.insert(listIdxOfStationId.at(size - 1) + 1, def);
+			StationLineList.lineId.insert(listIdxOfStationId.at(size - 1) + 1, lineId);
+			StationLineList.stationId.insert(listIdxOfStationId.at(size - 1) + 1, stationId);
+			StationLineList.createdAt.insert(listIdxOfStationId.at(size - 1) + 1, defString);
+			StationLineList.updatedAt.insert(listIdxOfStationId.at(size - 1) + 1, defString);
+			StationLineList.cityId.insert(listIdxOfStationId.at(size - 1) + 1, def);
+			return 0;
+		}
+		else if(pos >= 0 && pos < N) {
+			for (int i = 0; i < N; i++) {
+				if (arrayList[i] == stationId) {
+					return -1;
+				}
+			}
+			arrayList = new int[1];
+			for (int i = N - 1; i >= pos; i--) {
+				arrayList[i + 1] = arrayList[i];
+				if (i == pos) {
+					arrayList[i] = stationId;
+					StationLineList.lineId.findListStationIdByLineId(lineId, listIdxOfStationId, size);
+					StationLineList.id.insert(listIdxOfStationId.at(i) + 1, def);
+					StationLineList.lineId.insert(listIdxOfStationId.at(i) + 1, lineId);
+					StationLineList.stationId.insert(listIdxOfStationId.at(i) + 1, stationId);
+					StationLineList.createdAt.insert(listIdxOfStationId.at(i) + 1, defString);
+					StationLineList.updatedAt.insert(listIdxOfStationId.at(i) + 1, defString);
+					StationLineList.cityId.insert(listIdxOfStationId.at(i) + 1, def);
+					return 0;
+				}
+			}
+		}
+	}
+	else return -1;
+}
 //******************************************
 
 void LoadData(void*& pData) {
